@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<title>Vacant Storefronts</title>
+		<script type="text/javascript" src="./d3.js"></script>
+		<link href="https://api.mapbox.com/mapbox-gl-js/v2.5.1/mapbox-gl.css" rel="stylesheet">
+		<script src="https://api.mapbox.com/mapbox-gl-js/v2.5.1/mapbox-gl.js"></script>
+		<style>
+			/*your css here*/
+			#map{
+				width:900px;
+				height:500px;
+			}
+		</style>
+	</head>
+	
+	<body>
+		<img src="cover.jpg">
+		</br/>			
+        <div id = "title">Vacant Storefronts</div>
+		<div id = "byline">By Sean Chew, Haoche Hung, & Varisa Tanti</div>
+		<div id = "subhead">Subhead text subhead text subhead text subhead text subhead text.</div>
+		</br/>
+		<div id = "map1title">Title for Map 1</div>
+		<div id = "map"></div>
+		<div id = "maptext">Text for Map 1</div>
+		</br/>
+		<div id = "chart1title">Title for Chart 1</div>
+		<div id = "chart1"></div>
+		<div id = "chart1text">Text for Chart 1</div>
+		</br/>
+		<div id = "chart2title">Title for Chart 2</div>
+		<div id = "scatterplot"></div>
+		
+		
+		<script type = "text/javascript" src="mapboxmap.js"></script>
+		<script type = "text/javascript" src="barchart_count.js"></script>
+		<script type = "text/javascript" src="scatterplot.js"></script>
+
+
+<script>
+
+
+Promise.all([d3.csv("data/storefronts_count_yr.csv"),d3.csv("data/income_dropout.csv"),d3.csv("data/time_scale_data.csv")])
+.then(function(data){
+	scatterplot(data[1])
+	barChart_count(data[0])
+	
+})
+</script>
+
+		
+	</body>
+</html>
