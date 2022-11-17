@@ -3,5 +3,5 @@ const map = new mapboxgl.Map({
 	container: 'map', // container ID
 	style: 'mapbox://styles/jjjiia123/ckvmekzmf39nz14o27lfiynwy', // custom style url from https://studio.mapbox.com/
 	center: [-73.978,40.711], // starting position
-	zoom: 14 // starting zoom
+	zoom: 14 // what's the maximum that looks good? Set that as the zoom max
 });
