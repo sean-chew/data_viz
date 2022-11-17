@@ -5,3 +5,10 @@ const map = new mapboxgl.Map({
 	center: [-73.978,40.711], // starting position
 	zoom: 14 // starting zoom
 });
+
+// This will be for the raster
+//https://docs.mapbox.com/mapbox-gl-js/example/image-on-a-map/ 
+// Unless...we actually just create it...!!
+// https://docs.mapbox.com/help/tutorials/make-a-heatmap-with-mapbox-gl-js/ 
+
+// 
