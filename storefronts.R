@@ -17,10 +17,11 @@ options(scipen = 999)
 
 if(!require("pacman")) install.packages("pacman")
 pacman::p_load(dplyr, magrittr, stringr, reshape2, janitor,
-lubridate, readxl, data.table, ggplot2, scales, readr,
-tidyr, zoo, skimr, openxlsx,ggspatial, rgeos, data.table,RColorBrewer,
+lubridate, readxl, ggplot2, scales, readr,
+tidyr, zoo, skimr, openxlsx,ggspatial, rgeos,RColorBrewer,
 tidyverse, rio, collapse, sf, glue, XML, tm, here, purrr, repurrrsive,
-tmap,tidygraph, nabor,igraph, viridis, hrbrthemes,RSocrata,soql,ggmap)
+tmap,tidygraph, nabor,igraph, viridis, hrbrthemes,RSocrata,soql,ggmap,
+geojsonsf)
 
 ### Begin Code -----------------------------------------------------------------
 
@@ -54,15 +55,17 @@ storefronts_2020_1 <- storefronts_by_halfyear %>% # 6165 units vacant
 storefronts_2021_1 <- storefronts_by_halfyear %>% # 7614 units vacant
     filter(vacant_on_12_31 == "YES" & reporting_year == "2020 and 2021") 
 
-storefronts_2021_2 <- storefronts_by_halfyear %>% # 6165 units vacant # 3378
-    filter(vacant_6_30_or_date_sold_if_earlier == "YES" & reporting_year == "2020 and 2021") 
+# storefronts_2021_2 <- storefronts_by_halfyear %>% # 6165 units vacant # 3378
+#     filter(vacant_6_30_or_date_sold_if_earlier == "YES" & reporting_year == "2020 and 2021") 
 
-write_sf(storefronts_2020_1,"./intermediate/for_heatmap/storefronts_2020.shp")
-write_sf(storefronts_2021_1,"./intermediate/for_heatmap/storefronts_2021.shp")
+#write_sf(storefronts_2020_1,"./intermediate/for_heatmap/storefronts_2020.shp")
+#write_sf(storefronts_2021_1,"./intermediate/for_heatmap/storefronts_2021.shp")
 
+geo_2020 <- sf_geojson(storefronts_2020_1)
+geo_2021 <- sf_geojson(storefronts_2020_2)
 
-ggmap(storefronts_2021_1, extent = 'device', legend = "topleft") +
-    geom_density_2d_filled(data = storefronts_2021_1, alpha = 0.3)
+# ggmap(storefronts_2021_1, extent = 'device', legend = "topleft") +
+#     geom_density_2d_filled(data = storefronts_2021_1, alpha = 0.3)
 
 #### Exploratory Data Analysis
 
