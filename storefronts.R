@@ -1,11 +1,29 @@
-library(sf)
-library(readr)
-library(dplyr)
-library(tmap)
-library(janitor)
-library(basemaps)
-library(ggplot2)
-library(tidyverse)
+################################################################################
+###   Author: Sean Chew
+###   PURPOSE:
+################################################################################
+
+### Set Environment ------------------------------------------------------------
+# Clear the environment
+rm(list=ls())
+gc()
+# So the code will compile warnings as per usual
+options(warn = 0)
+# So that text data is not read in as factors
+options(stringsAsFactors = F)
+# Turn off scientific notation
+options(scipen = 999)
+### Load Packages --------------------------------------------------------------
+
+if(!require("pacman")) install.packages("pacman")
+pacman::p_load(dplyr, magrittr, stringr, reshape2, janitor,
+lubridate, readxl, data.table, ggplot2, scales, readr,
+tidyr, zoo, skimr, openxlsx,ggspatial, rgeos, data.table,RColorBrewer,
+tidyverse, rio, collapse, sf, glue, XML, tm, here, purrr, repurrrsive,
+tmap,tidygraph, nabor,igraph, viridis, hrbrthemes,RSocrata,soql,ggmap)
+
+### Begin Code -----------------------------------------------------------------
+
 options(scipen = 100)
 
 storefronts <- read_csv("./data/Storefronts_Reported_Vacant_or_Not.csv") %>% 
@@ -25,13 +43,28 @@ storefronts_by_halfyear <- storefronts_sf %>%
                ifelse(is.na(vacant_6_30_or_date_sold_if_earlier),"NO",
                       vacant_6_30_or_date_sold_if_earlier))
 
-storefronts_2020_1 <- storefronts_by_halfyear %>% 
-    group_by(vacant_on_12_31 == "YES" |
-                 vacant_6_30_or_date_sold_if_earlier == "YES") %>% 
-storefronts_2020_2
-storefronts_2021_1
-storefronts_2021_2
+storefronts_2020_1 <- storefronts_by_halfyear %>% # 6165 units vacant
+    filter(vacant_on_12_31 == "YES" & reporting_year == "2019 and 2020") 
 
+# I don't think this is actually a good way to account for it.
+# storefronts_2020_2 <- storefronts_by_halfyear %>% # 6165 units vacant 
+#     filter(vacant_6_30_or_date_sold_if_earlier == "YES" & reporting_year == "2019 and 2020") 
+# 
+
+storefronts_2021_1 <- storefronts_by_halfyear %>% # 7614 units vacant
+    filter(vacant_on_12_31 == "YES" & reporting_year == "2020 and 2021") 
+
+storefronts_2021_2 <- storefronts_by_halfyear %>% # 6165 units vacant # 3378
+    filter(vacant_6_30_or_date_sold_if_earlier == "YES" & reporting_year == "2020 and 2021") 
+
+write_sf(storefronts_2020_1,"./intermediate/for_heatmap/storefronts_2020.shp")
+write_sf(storefronts_2021_1,"./intermediate/for_heatmap/storefronts_2021.shp")
+
+
+ggmap(storefronts_2021_1, extent = 'device', legend = "topleft") +
+    geom_density_2d_filled(data = storefronts_2021_1, alpha = 0.3)
+
+#### Exploratory Data Analysis
 
 NTA <- read_sf("./data/NTA map/geo_export_32c56777-0bc5-48c7-9917-05b5a42c7b84.shp")%>% 
     st_transform(3857)
