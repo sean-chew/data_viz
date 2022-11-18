@@ -27,8 +27,8 @@ map.on('load', () => {
 	// add heatmap layer here
 	// add circle layer here
 		
-	drawmap('vacant_2020');
-	//drawmap('vacant_2021');
+	//drawmap('vacant_2020');
+	drawmap('vacant_2021');
 
 	map.addSource('nta_changes',{
 		type: 'geojson',
@@ -107,7 +107,7 @@ map.on('mouseleave', 'nta_change_polygon_fill', function() {
 			  ]
 			},
 			// assign color values be applied to points depending on their density
-			'heatmap-color': [
+			'heatmap-color': [// Change the Thresholds
 			  'interpolate',
 			  ['linear'],
 			  ['heatmap-density'],
