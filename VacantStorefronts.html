@@ -12,6 +12,20 @@
 				width:1000px;
 				height:500px;
 			}
+		body {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .buttons {
+            display: flex;
+            flex-direction: row;
+        }
+
+        .boro-button {
+            margin-right: 1rem;
+            padding: 0.5rem 0.2rem;
+        }
 		</style>
 	</head>
 	
@@ -27,13 +41,25 @@
 		<div id = "maptext">Text for Map 1</div>
 		</br/>
 		<div id = "chart1title">Type of Storefronts</div>
+		<div class="year-button">
+			<button class="year-button" reporting_year="2019 and 2020">2019</button>
+			<button class="year-button" reporting_year="2020 and 2021">2020</button>
+			<button class="year-button" reporting_year="ZXXXXXZ">Change</button>
+		</br/>
 		<div id = "chart1"></div>
 		<div id = "chart2"></div>
 		<div id = "bar1text">Text for Chart 1</div>
 		</br/>
 		<div id = "chart2title">Title for Chart 2</div>
 		<div id = "scatterplot"></div>
+		<h2 id="title">Manhattan</h2>
 		
+		<div class="buttons">
+			<button class="boro-button" data-boronum="1">manhattan</button>
+			<button class="boro-button" data-boronum="2">bronx</button>
+			<button class="boro-button" data-boronum="3">brooklyn</button>
+			<button class="boro-button" data-boronum="4">queens</button>
+		</div>
 		
 		<script type = "text/javascript" src="mapboxmap.js"></script>
 		<script type = "text/javascript" src="barchart_count.js"></script>
@@ -43,9 +69,9 @@
 <script>
 
 
-Promise.all([d3.csv("data/storefronts_count_yr.csv"),d3.csv("data/income_dropout.csv"),d3.csv("data/time_scale_data.csv")])
+Promise.all([d3.csv("data/storefronts_count_yr.csv"),d3.csv("data/storefront_MapPluto_NTA.csv"),d3.csv("data/time_scale_data.csv")])
 .then(function(data){
-	scatterplot(data[1])
+	scatterPlot(data[1])
 	barChart_count(data[0])
 	
 })

@@ -1,7 +1,6 @@
 //Filtering 2019 works but shows up only at the bottom. Also, filtering 2020 doesn't work 
 //How to have one chart at a time show up in the right place? 
 // you will also need to adjust the bar/labels/text .attr("y", ....
-//How to place button?
 //How to do animations between multiple charts? 
 
 function barChart_count(dataset){
@@ -9,7 +8,6 @@ function barChart_count(dataset){
 	var margin = 0
 	var width = 700
 	var height = 800
-
 
 //button and pulling data
 
@@ -65,22 +63,22 @@ document.getElementById("chart1title").append(button2)
 	}
 	console.log(results2019); // here is the list of only 2019/2020 values
 
-	// Filter between years
-	const results2020 = dataset.filter(only2020)
+	const results2021 = dataset.filter(only2021)
 	//looping through each row and matching 
-	function only2020(row){
+	function only2021(row){
 		return row.reporting_year == "2020 and 2021"
 	}
-	console.log(results2020); // here is the list of only 2020/2021 values
+	console.log(results2021); // here is the list of only 2020/2021 values
 
 
-//2019 
+
+// 2019 
 
 
 	//instead of the y axis, we can just place labels as we did the rectangles below
 	svg.selectAll(".labels")
        	 .data(dataset)
-		 .data(results2019)
+		 //.data(results2019)
          .enter()
 		 .append("text")
          .attr("class", "labels")
@@ -95,7 +93,7 @@ document.getElementById("chart1title").append(button2)
 
 	svg.selectAll(".countText")
 		 .data(dataset)
-		 .data(results2019)
+		 //.data(results2019)
 		 .enter()
 		 .append("text")
 		 .attr("class", "countText")
@@ -109,7 +107,7 @@ document.getElementById("chart1title").append(button2)
 
 	g.selectAll(".bar")
          .data(dataset)
-		.data(results2019)
+		 //.data(results2019)
          .enter().append("rect")
          .attr("class", "bar")
          .attr("width", function(d) { 
@@ -119,15 +117,15 @@ document.getElementById("chart1title").append(button2)
 		 })
         .attr("y", function(d,i) { return yScale(i); }) // adjust to draw at top instead of fixed index position
          .attr("height", 8)
-		 .attr("fill", "lightsteelblue"); 
+		 .attr("fill", "lightsteelblue");
 
 
-	//2020
+// 2020
 		
 	
-	/*g.selectAll(".bar")
-         .data(dataset)
-		 //.data(results2020)
+	g.selectAll(".bar")
+        // .data(dataset)
+		 .data(results2021)
          .enter().append("rect")
          .attr("class", "bar")
          .attr("width", function(d) { 
@@ -140,8 +138,8 @@ document.getElementById("chart1title").append(button2)
 		 .attr("fill", "lightsteelblue"); 
 
 		 svg.selectAll(".labels")
-		 .data(dataset)
-	     //.data(results2020)
+		// .data(dataset)
+	     .data(results2021)
 	     .enter()
 	     .append("text")
 	     .attr("class", "labels")
@@ -155,8 +153,8 @@ document.getElementById("chart1title").append(button2)
 	     .attr("fill", "black");
 
   svg.selectAll(".countText")
-	     .data(dataset)
-	     //.data(results2020)
+	    // .data(dataset)
+	     .data(results2021)
 	     .enter()
 	     .append("text")
 	     .attr("class", "countText")
@@ -166,6 +164,20 @@ document.getElementById("chart1title").append(button2)
 		  return d.n}) // return the value n for each row 
 	     .attr("font-family", "monospace")
 	     .attr("font-size", "10px")
-	     .attr("fill", "lightgray"); */
-		  
+	     .attr("fill", "lightgray"); 
+
+
+// Pull buttons 
+
+const buttons = document.querySelectorAll('.year-button')
+Array.from(buttons).forEach(button => {
+	const reporting_year = button.dataset.reporting_year
+	button.addEventListener('click', () => {
+
+		createRect(svg, data, reporting_year)
+		document.querySelector('#title').innerText = button.innerText
+	
+		
+	})
+})
 }
