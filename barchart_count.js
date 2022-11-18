@@ -149,7 +149,7 @@ document.getElementById("chart1title").append(button2)
 	     .text(function(d) {
 		  return d.primary_business_activity}) // return the activity for each row
 	     .attr("font-family", "monospace")
-	     .attr("font-size", "11px")
+	     .attr("font-size", "9px")
 	     .attr("fill", "black");
 
   svg.selectAll(".countText")
