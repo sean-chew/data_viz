@@ -89,7 +89,7 @@ document.getElementById("chart1title").append(button2)
 			return d.primary_business_activity}) // return the activity for each row
 		.attr("font-family", "monospace")
 		.attr("font-size", "11px")
-		.attr("fill", "black");
+		.attr("fill", "navy");
 
 	svg.selectAll(".countText")
 		 .data(dataset)
@@ -150,7 +150,7 @@ document.getElementById("chart1title").append(button2)
 		  return d.primary_business_activity}) // return the activity for each row
 	     .attr("font-family", "monospace")
 	     .attr("font-size", "9px")
-	     .attr("fill", "black");
+	     .attr("fill", "navy");
 
   svg.selectAll(".countText")
 	    // .data(dataset)
