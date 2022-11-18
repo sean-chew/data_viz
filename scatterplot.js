@@ -29,7 +29,7 @@
             // console.log(colorScale('11'))
 
             //Create SVG element
-            var svg = d3.select("body")
+            var svg = d3.select("#scatterplot")
                 .append("svg")
                 .attr("width", w)
                 .attr("height", h)

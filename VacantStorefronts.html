@@ -27,6 +27,20 @@
             padding: 0.5rem 0.2rem;
 
         }
+		body {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .buttons {
+            display: flex;
+            flex-direction: row;
+        }
+
+        .boro-button {
+            margin-right: 1rem;
+            padding: 0.5rem 0.2rem;
+        }
 		</style>
 	</head>
 	
@@ -53,7 +67,14 @@
 		</br/>
 		<div id = "chart2title">Title for Chart 2</div>
 		<div id = "scatterplot"></div>
+		<h2 id="title">Manhattan</h2>
 		
+		<div class="buttons">
+			<button class="boro-button" data-boronum="1">manhattan</button>
+			<button class="boro-button" data-boronum="2">bronx</button>
+			<button class="boro-button" data-boronum="3">brooklyn</button>
+			<button class="boro-button" data-boronum="4">queens</button>
+		</div>
 		
 		<script type = "text/javascript" src="mapboxmap.js"></script>
 		<script type = "text/javascript" src="barchart_count.js"></script>
@@ -63,7 +84,7 @@
 <script>
 
 
-Promise.all([d3.csv("data/storefronts_count_yr.csv"),d3.csv("data/income_dropout.csv"),d3.csv("data/time_scale_data.csv")])
+Promise.all([d3.csv("data/storefronts_count_yr.csv"),d3.csv("data/storefront_MapPluto_NTA.csv"),d3.csv("data/time_scale_data.csv")])
 .then(function(data){
 	scatterplot(data[1])
 	barChart_count(data[0])
