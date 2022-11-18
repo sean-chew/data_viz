@@ -12,21 +12,6 @@
 				width:1000px;
 				height:500px;
 			}
-			body {
-            display: flex;
-            flex-direction: column;
-        }
-
-        .buttons {
-            display: flex;
-            flex-direction: row;
-        }
-
-        .year-button {
-            margin-right: 1rem;
-            padding: 0.5rem 0.2rem;
-
-        }
 		body {
             display: flex;
             flex-direction: column;
@@ -86,7 +71,7 @@
 
 Promise.all([d3.csv("data/storefronts_count_yr.csv"),d3.csv("data/storefront_MapPluto_NTA.csv"),d3.csv("data/time_scale_data.csv")])
 .then(function(data){
-	scatterplot(data[1])
+	scatterPlot(data[1])
 	barChart_count(data[0])
 	
 })

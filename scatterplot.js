@@ -1,8 +1,4 @@
-    <script type="text/javascript">
-        d3.csv("storefront_MapPluto_NTA.csv").then(function (data) {
-            console.log(data)
-            scatterPlot(data)
-        });
+
 
         function scatterPlot(data) {
             var w = 800;
@@ -92,4 +88,3 @@
                 .attr("transform", "translate(" + padding + ",0)")
                 .call(yAxis);
         }
-    </script>
