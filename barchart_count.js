@@ -14,7 +14,7 @@ function barChart_count(dataset){
 //button and pulling data
 
 
-const button1 = document.createElement('button')
+/*const button1 = document.createElement('button')
 button1.innerText = '2019 to 2020'
 
 button1.addEventListener('click',() =>{
@@ -28,7 +28,7 @@ button2.innerText = '2020 to 2021'
 button2.addEventListener('click',() =>{
 	alert('result2020') // empty for now, will add chart later . . . alert2020
 })
-document.getElementById("chart1title").append(button2)
+document.getElementById("chart1title").append(button2)*/
 
 
 //drawing the things
@@ -65,7 +65,6 @@ document.getElementById("chart1title").append(button2)
 	}
 	console.log(results2019); // here is the list of only 2019/2020 values
 
-	// Filter between years
 	const results2020 = dataset.filter(only2020)
 	//looping through each row and matching 
 	function only2020(row){
@@ -125,7 +124,7 @@ document.getElementById("chart1title").append(button2)
 	//2020
 		
 	
-	/*g.selectAll(".bar")
+	g.selectAll(".bar")
          .data(dataset)
 		 //.data(results2020)
          .enter().append("rect")
@@ -166,6 +165,6 @@ document.getElementById("chart1title").append(button2)
 		  return d.n}) // return the value n for each row 
 	     .attr("font-family", "monospace")
 	     .attr("font-size", "10px")
-	     .attr("fill", "lightgray"); */
+	     .attr("fill", "lightgray"); 
 		  
 }

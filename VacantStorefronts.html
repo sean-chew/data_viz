@@ -12,6 +12,21 @@
 				width:1000px;
 				height:500px;
 			}
+			body {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .buttons {
+            display: flex;
+            flex-direction: row;
+        }
+
+        .year-button {
+            margin-right: 1rem;
+            padding: 0.5rem 0.2rem;
+
+        }
 		</style>
 	</head>
 	
@@ -27,6 +42,11 @@
 		<div id = "maptext">Text for Map 1</div>
 		</br/>
 		<div id = "chart1title">Type of Storefronts</div>
+		<div class="year-button">
+			<button class="year-button" reporting_year="2019 and 2020">2019</button>
+			<button class="year-button" reporting_year="2020 and 2021">2020</button>
+			<button class="year-button" reporting_year="ZXXXXXZ">Change</button>
+		</br/>
 		<div id = "chart1"></div>
 		<div id = "chart2"></div>
 		<div id = "bar1text">Text for Chart 1</div>
