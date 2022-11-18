@@ -43,9 +43,8 @@ map.on('load', () => {
 		source:'nta_changes',
 		type: 'fill',
 		paint: {
-			'fill-color':'#223b53',
-			'fill-outline-color': 'white',
-			'fill-opacity':.4
+			'fill-color':'transparent',
+			'fill-outline-color': '#FFFFFF'
 		}
 
 	});
@@ -65,17 +64,18 @@ var popup = new mapboxgl.Popup({
     closeButton: false
 });
 
-
-map.on('mousemove', 'nta_change_polygon_fill', function(e) {
+//https://docs.mapbox.com/mapbox-gl-js/example/queryrenderedfeatures/ 
+map.on('mouseover', 'nta_change_polygon_fill', function(e) {
 	// Change the cursor style as a UI indicator.
 	map.getCanvas().style.cursor = 'pointer';
 
 	// Single out the first found feature.
 	var feature = e.features[0];
+	console.log(e)
 
 	// Display a popup with the name of the county
 	popup.setLngLat(e.lngLat)
-		.setText('NTA Name:'+feature.properties.ntaname + '\n'+ 'Change: ' + feature.properties.change)
+		.setText(`NTA Name:${e.feature.properties.ntaname}\nChange:${e.feature.properties.change})`)
 		.addTo(map);
 });
 
@@ -110,27 +110,25 @@ map.on('mouseleave', 'nta_change_polygon_fill', function() {
 			  ]
 			},
 			// assign color values be applied to points depending on their density
-			'heatmap-color': [// Change the Thresholds
-			  'interpolate',
+			'heatmap-color': [// Change the Thresholds - It's doing it on the fly
+			  'interpolate', //Book end, half it, half it, etc. - TRY BRINGING IT INTO mapbox studio
 			  ['linear'],
 			  ['heatmap-density'],
 			  0,
 			  'rgba(236,222,239,0)',
-			  0.2,
-			  'rgb(208,209,230)',
-			  0.4,
-			  'rgb(166,189,219)',
-			  0.6,
-			  'rgb(103,169,207)',
-			  0.8,
-			  'rgb(28,144,153)'
+			  0.7,
+			  '#caf0f8',
+			  .9,
+			  '#00b4d8',
+			  2,
+			  '#03045e'
 			],
 			// increase radius as zoom increases
 			'heatmap-radius': {
 			  stops: [
-				[10,3],
-				[11, 7],
-				[15, 20]
+				[10,2],
+				[11, 5],
+				[15, 15]
 			  ]
 			},
 			// decrease opacity to transition into the circle layer

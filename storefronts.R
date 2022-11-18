@@ -10,7 +10,7 @@ gc()
 # So the code will compile warnings as per usual
 options(warn = 0)
 # So that text data is not read in as factors
-options(stringsAsFactors = F)
+#options(stringsAsFactors = F)
 # Turn off scientific notation
 options(scipen = 999)
 ### Load Packages --------------------------------------------------------------
@@ -67,8 +67,9 @@ storefronts_2021_1 <- storefronts_by_halfyear %>% # 7614 units vacant
 # sf::st_write(nc, dsn = "./intermediate/geo_2020.geojson", layer = "nc.geojson")
 # write_sf(geo_2020, "./intermediate/geo_2020.geojson")
 
-sf::st_write(storefronts_2020_1, dsn = "./intermediate/geo_2020.geojson", layer = "geo_2020.geojson")
-sf::st_write(storefronts_2021_1, dsn = "./intermediate/geo_2021.geojson", layer = "geo_2021.geojson")
+### 
+#sf::st_write(storefronts_2020_1, dsn = "./intermediate/geo_2020.geojson", layer = "geo_2020.geojson")
+#sf::st_write(storefronts_2021_1, dsn = "./intermediate/geo_2021.geojson", layer = "geo_2021.geojson")
 
 
 # storefronts_change <- storefronts_2021_1 %>% 
@@ -85,39 +86,44 @@ sf::st_write(storefronts_2021_1, dsn = "./intermediate/geo_2021.geojson", layer 
 NTA <- read_sf("./data/NTA map/geo_export_32c56777-0bc5-48c7-9917-05b5a42c7b84.shp")%>% 
     st_transform(3857)
 
-sf::st_write(NTA, dsn = "./intermediate/nta.geojson", layer = "nta.geojson")
+#sf::st_write(NTA, dsn = "./intermediate/nta.geojson", layer = "nta.geojson")
 
 
 # set defaults for the basemap
-set_defaults(map_service = "carto", map_type = "dark")
-nyc_raster<-basemap_raster(storefronts_sf)
-nyc_raster
-
-tmap_mode("plot")
-
-tm_shape(nyc_raster)+
-    tm_rgb() +
-    tm_shape(storefronts_sf) +
-    tm_dots(col = "primary_business_activity") +
-    tm_facets(by = "reporting_year")
-
-ggplot(storefronts_sf %>% st_drop_geometry(),aes(x=as.factor(primary_business_activity) )) +
-    geom_bar() +
-    coord_flip() +
-    facet_grid(cols = vars(reporting_year))
+# set_defaults(map_service = "carto", map_type = "dark")
+# nyc_raster<-basemap_raster(storefronts_sf)
+# nyc_raster
+# 
+# tmap_mode("plot")
+# 
+# tm_shape(nyc_raster)+
+#     tm_rgb() +
+#     tm_shape(storefronts_sf) +
+#     tm_dots(col = "primary_business_activity") +
+#     tm_facets(by = "reporting_year")
+# 
+# ggplot(storefronts_sf %>% st_drop_geometry(),aes(x=as.factor(primary_business_activity) )) +
+#     geom_bar() +
+#     coord_flip() +
+#     facet_grid(cols = vars(reporting_year))
 
 storefronts_varisa <- storefronts_sf %>% 
     st_drop_geometry() %>% 
     mutate(primary_business_activity = ifelse(primary_business_activity == "HEALTH CARE or SOCIAL ASSISTANCE",
                                               "HEALTH CARE OR SOCIAL ASSISTANCE",
                                               primary_business_activity)) %>% 
-    group_by(reporting_year,primary_business_activity) %>% 
+    group_by(reporting_year,primary_business_activity,borough) %>% 
     count()
 
-ggplot(storefronts_varisa,aes(x=primary_business_activity,y = n)) +
+storefronts_varisa_wide <- storefronts_varisa %>% 
+    pivot_wider(names_from = reporting_year,values_from = n) %>% 
+    clean_names() %>% 
+    mutate(change = x2020_and_2021 - x2019_and_2020)
+
+ggplot(storefronts_varisa_wide,aes(x=primary_business_activity,y = change)) +
     geom_bar(stat ="identity") +
     coord_flip() +
-    facet_grid(cols = vars(reporting_year))
+    facet_grid(cols = vars(borough))
 
 #write_csv(storefronts_varisa,"./Data/clean_storefronts.csv")
 
