@@ -36,7 +36,7 @@ storefronts <- read_csv("./data/Storefronts_Reported_Vacant_or_Not.csv") %>%
 
 storefronts_sf <- st_as_sf(storefronts,coords = c("LONGITUDE","LATITUDE")) %>% 
     clean_names() %>% 
-    st_set_crs(4326) %>% st_transform(3857)
+    st_set_crs(4326) %>% st_transform(4326)
 
 storefronts_by_halfyear <- storefronts_sf %>% 
     filter(vacant_on_12_31 == "YES" | vacant_6_30_or_date_sold_if_earlier == "YES") %>% 
@@ -61,8 +61,21 @@ storefronts_2021_1 <- storefronts_by_halfyear %>% # 7614 units vacant
 #write_sf(storefronts_2020_1,"./intermediate/for_heatmap/storefronts_2020.shp")
 #write_sf(storefronts_2021_1,"./intermediate/for_heatmap/storefronts_2021.shp")
 
-geo_2020 <- sf_geojson(storefronts_2020_1)
-geo_2021 <- sf_geojson(storefronts_2020_2)
+# geo_2020 <- sf_geojson(storefronts_2020_1)
+# geo_2021 <- sf_geojson(storefronts_2021_1)
+
+# sf::st_write(nc, dsn = "./intermediate/geo_2020.geojson", layer = "nc.geojson")
+# write_sf(geo_2020, "./intermediate/geo_2020.geojson")
+
+sf::st_write(storefronts_2020_1, dsn = "./intermediate/geo_2020.geojson", layer = "geo_2020.geojson")
+sf::st_write(storefronts_2021_1, dsn = "./intermediate/geo_2021.geojson", layer = "geo_2021.geojson")
+
+
+# storefronts_change <- storefronts_2021_1 %>% 
+#     left_join(storefronts_2020_1 %>% st_drop_geometry() %>% 
+#                   select(-c("reporting_year")),
+#               by = c("bbl","bin","property_street_address_or_storefront_address","unit","property_street","property_number",
+#                      "construction_reported","borough_block_lot"))
 
 # ggmap(storefronts_2021_1, extent = 'device', legend = "topleft") +
 #     geom_density_2d_filled(data = storefronts_2021_1, alpha = 0.3)
@@ -71,6 +84,9 @@ geo_2021 <- sf_geojson(storefronts_2020_2)
 
 NTA <- read_sf("./data/NTA map/geo_export_32c56777-0bc5-48c7-9917-05b5a42c7b84.shp")%>% 
     st_transform(3857)
+
+sf::st_write(NTA, dsn = "./intermediate/nta.geojson", layer = "nta.geojson")
+
 
 # set defaults for the basemap
 set_defaults(map_service = "carto", map_type = "dark")
@@ -112,28 +128,24 @@ tm_shape(NTA) +
  storefronts_sf_yes_1 <- storefronts_sf %>%
      filter(reporting_year == "2019 and 2020") %>% 
      group_by(nta) %>% 
-     summarise(vacant = sum(vacant_on_12_31 == "YES"),
-               total_2020 = sum(vacant_on_12_31 == "NO" | vacant_on_12_31 == "YES")) 
- # %>% 
- #     ungroup() %>% 
- #     mutate(perc_1 = vacant/total)
+     summarise(vacant_2020 = sum(vacant_on_12_31 == "YES")) 
  
 storefronts_sf_yes_2 <- storefronts_sf %>%
      filter(reporting_year == "2020 and 2021") %>% 
      group_by(nta) %>% 
-     summarise(vacant = sum(vacant_on_12_31 == "YES"),
-               total_2021 = sum(vacant_on_12_31 == "NO" | vacant_on_12_31 == "YES"))
-#%>% 
-     # ungroup() %>% 
-     # mutate(perc_2 = vacant/total)
- 
+     summarise(vacant_2021 = sum(vacant_on_12_31 == "YES"))
+
 storefronts_all <- storefronts_sf_yes_1 %>% 
      st_drop_geometry() %>% 
      left_join(storefronts_sf_yes_2, by = "nta") %>% 
-     mutate(change = (total_2021 - total_2020))
+     mutate(change = (vacant_2021 - vacant_2020))
  
-storefront_change <- NTA %>% 
-    left_join(storefronts_all, by = c("ntacode" = "nta"))
+nta_storefront_change <- NTA %>% 
+    st_transform(4326) %>% 
+    left_join(storefronts_all %>% st_drop_geometry(), by = c("ntacode" = "nta")) %>% 
+    select(c("boroname","ntaname","vacant_2020","vacant_2021","change"))
+
+sf::st_write(nta_storefront_change, dsn = "./intermediate/nta_storefront_change.geojson", layer = "nta_storefront_change.geojson")
 
 
 storefronts_sf_2020 <- storefronts_sf %>% 
