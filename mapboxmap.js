@@ -20,67 +20,178 @@ map.on('load', () => {
 	  type: 'geojson',
 	  data: './intermediate/geo_2020.geojson'
 	});
+	map.addSource('vacant_2021', {
+		type: 'geojson',
+		data: './intermediate/geo_2021.geojson'
+	  });
 	// add heatmap layer here
 	// add circle layer here
-		map.addLayer(
-			{
-			  id: 'vacant_2020',
-			  type: 'heatmap',
-			  source: 'vacant_2020',
-			  maxzoom: 15,
-			  paint: {
-				// increase weight as diameter breast height increases
-				'heatmap-weight': {
-				  property: 'dbh',
-				  type: 'exponential',
-				  stops: [
-					[1, 0],
-					[62, 1]
-				  ]
-				},
-				// increase intensity as zoom level increases
-				'heatmap-intensity': {
-				  stops: [
-					[11, 1],
-					[15, 3]
-				  ]
-				},
-				// assign color values be applied to points depending on their density
-				'heatmap-color': [
-				  'interpolate',
-				  ['linear'],
-				  ['heatmap-density'],
-				  0,
-				  'rgba(236,222,239,0)',
-				  0.2,
-				  'rgb(208,209,230)',
-				  0.4,
-				  'rgb(166,189,219)',
-				  0.6,
-				  'rgb(103,169,207)',
-				  0.8,
-				  'rgb(28,144,153)'
-				],
-				// increase radius as zoom increases
-				'heatmap-radius': {
-				  stops: [
-					[10,3],
-					[11, 7],
-					
-					[15, 20]
-				  ]
-				},
-				// decrease opacity to transition into the circle layer
-				'heatmap-opacity': {
-				  default: 1,
-				  stops: [
-					[14, 1],
-					[15, 0]
-				  ]
-				}
-			  }
-			},
-			'waterway-label'
-		  );
-	
+		
+	drawmap('vacant_2020');
+	//drawmap('vacant_2021');
+
+	map.addSource('nta_changes',{
+		type: 'geojson',
+		data: './intermediate/nta_storefront_change.geojson'
+	});
+
+	map.addLayer({
+		id:'nta_change_polygon_fill',
+		source:'nta_changes',
+		type: 'fill',
+		paint: {
+			'fill-color':'#223b53',
+			'fill-outline-color': 'white',
+			'fill-opacity':.4
+		}
+
+	});
+
+/*
+	map.on('click', 'nta_change_polygon_fill', (event) => {
+	new mapboxgl.Popup()
+		  .setLngLat(event.features[0].geometry.coordinates)
+		  .setHTML(`<strong>NTA:</strong> ${event.features[0].properties.ntaname}`+ `\n`+ 
+		  `<strong>Vacant in 2020:</strong> ${event.features[0].properties.vacant_2020}`+ `\n`+ 
+		  `<strong>Vacant in 2021:</strong> ${event.features[0].properties.vacant_2021}`)
+		  .addTo(map);
+	  });
+
+*/
+var popup = new mapboxgl.Popup({
+    closeButton: false
+});
+
+
+map.on('mousemove', 'nta_change_polygon_fill', function(e) {
+	// Change the cursor style as a UI indicator.
+	map.getCanvas().style.cursor = 'pointer';
+
+	// Single out the first found feature.
+	var feature = e.features[0];
+
+	// Display a popup with the name of the county
+	popup.setLngLat(e.lngLat)
+		.setText('NTA Name:'+feature.properties.ntaname + '\n'+ 'Change: ' + feature.properties.change)
+		.addTo(map);
+});
+
+map.on('mouseleave', 'nta_change_polygon_fill', function() {
+	map.getCanvas().style.cursor = '';
+	popup.remove();
+});
   });
+
+  function drawmap(source) {
+	map.addLayer(
+		{
+		  id: source,
+		  type: 'heatmap',
+		  source: source,
+		  maxzoom: 15,
+		  paint: {
+			// increase weight as diameter breast height increases
+			'heatmap-weight': {
+			  property: 'dbh',
+			  type: 'exponential',
+			  stops: [
+				[1, 0],
+				[62, 1]
+			  ]
+			},
+			// increase intensity as zoom level increases
+			'heatmap-intensity': {
+			  stops: [
+				[11, 1],
+				[15, 3]
+			  ]
+			},
+			// assign color values be applied to points depending on their density
+			'heatmap-color': [
+			  'interpolate',
+			  ['linear'],
+			  ['heatmap-density'],
+			  0,
+			  'rgba(236,222,239,0)',
+			  0.2,
+			  'rgb(208,209,230)',
+			  0.4,
+			  'rgb(166,189,219)',
+			  0.6,
+			  'rgb(103,169,207)',
+			  0.8,
+			  'rgb(28,144,153)'
+			],
+			// increase radius as zoom increases
+			'heatmap-radius': {
+			  stops: [
+				[10,3],
+				[11, 7],
+				[15, 20]
+			  ]
+			},
+			// decrease opacity to transition into the circle layer
+			'heatmap-opacity': {
+			  default: 1,
+			  stops: [
+				[14, 1],
+				[15, 0]
+			  ]
+			}
+		  }
+		},
+		'waterway-label'
+	  );
+
+	  map.addLayer(
+		{
+		  id: source + '-point',
+		  type: 'circle',
+		  source: source,
+		  minzoom: 14,
+		  paint: {
+			// increase the radius of the circle as the zoom level and dbh value increases
+			'circle-radius': {
+			  property: 'dbh',
+			  type: 'exponential',
+			  stops: [
+				[{ zoom: 15, value: 1 }, 5],
+				[{ zoom: 15, value: 62 }, 10],
+				[{ zoom: 22, value: 1 }, 20],
+				[{ zoom: 22, value: 62 }, 50]
+			  ]
+			},
+			'circle-color': {
+			  property: 'dbh',
+			  type: 'exponential',
+			  stops: [
+				[0, 'rgba(236,222,239,0)'],
+				[10, 'rgb(236,222,239)'],
+				[20, 'rgb(208,209,230)'],
+				[30, 'rgb(166,189,219)'],
+				[40, 'rgb(103,169,207)'],
+				[50, 'rgb(28,144,153)'],
+				[60, 'rgb(1,108,89)']
+			  ]
+			},
+			'circle-stroke-color': 'white',
+			'circle-stroke-width': 1,
+			'circle-opacity': {
+			  stops: [
+				[14, 0],
+				[15, 1]
+			  ]
+			}
+		  }
+		},
+		'waterway-label'
+	  );
+	  map.on('click', source + '-point', (event) => {
+		new mapboxgl.Popup()
+		  .setLngLat(event.features[0].geometry.coordinates)
+		  .setHTML(`<strong>Year:</strong> ${event.features[0].properties.reporting_year}`+ `\n`+ 
+		  `<strong>Address:</strong> ${event.features[0].properties.property_street_address_or_storefront_address}`+ `\n`+ 
+		  `<strong>Neighborhood:</strong> ${event.features[0].properties.nbhd}`)
+		  .addTo(map);
+	  });
+  }
