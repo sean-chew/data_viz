@@ -118,9 +118,9 @@ map.on('mouseleave', 'nta_change_polygon_fill', function() {
 			  'rgba(236,222,239,0)',
 			  0.7,
 			  '#caf0f8',
-			  .9,
-			  '#00b4d8',
-			  2,
+			  .9999999999,
+			  '#FFFFFF',
+			  1,
 			  '#03045e'
 			],
 			// increase radius as zoom increases
