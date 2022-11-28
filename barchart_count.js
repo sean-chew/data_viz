@@ -45,17 +45,21 @@ var svg = d3.select("#chart1").append("svg").attr("width",width+250).attr("heigh
 //Call the function 2 times to draw the bars for both - they are on top of each other
 
 
-drawTypeBarChart(results2021,"_2021")
 drawTypeBarChart(results2019,"_2019")
+//drawTypeBarChart(results2021,"_2021")
+//drawTypeCount(results2019)
+//drawTypeCount(results2021)
 
-	
+
+
 //Put functions into buttons
 	//2019 button
 	d3.select("#button2019").on("click",function(){
 		//Remove the other chart and add 2019 
 		d3.selectAll(".typeCharts").remove()
 		drawTypeBarChart(results2019,"_2019")
-		d3.selectAll(".typecountText").remove()
+		d3.selectAll(".typeCount").remove()
+		//drawTypeCount(results2019,".countText")
 
 
 	})
@@ -63,16 +67,18 @@ drawTypeBarChart(results2019,"_2019")
 		//Remove the other chart and add 2021
 		d3.selectAll(".typeCharts").remove()
 		drawTypeBarChart(results2021,"_2021")
-		d3.selectAll(".typecountText").remove()
+		d3.selectAll(".typeCount").remove()
+		//drawTypeCount(results2021,".countText")
+
 
 		
 	})
-	d3.select("#buttonChange").on("click",function(){
+	/*d3.select("#buttonChange").on("click",function(){
 		//here I remove all other charts and add the change which will be drawn below
 		d3.selectAll(".typeCharts").remove()
 		drawChangeChart(changeData,"change")
 		
-	})
+	})*/
 	
 	
 	//TODO: NEXT STEPS
@@ -91,15 +97,24 @@ drawTypeBarChart(results2019,"_2019")
 	function drawTypeBarChart(dataset,className){
 	//set where the bars start to draw 
 	var g = svg.append("g")
-		.attr("transform", "translate(" + 260 + "," + -8 + ")")
-		//here i am adding 2 class names - the year and the chart group's general name for reference
-        .attr("class", className+" typeCharts")
-		
+		 .attr("transform", "translate(" + 260 + "," + -8 + ")")
+		 //here i am adding 2 class names - the year and the chart group's general name for reference
+         .attr("class", className+" typeCharts")
+
+	function drawTypeCount(dataset,className1){
+	//set where the text starts to draw 
+	var g = svg.append("g")
+      	 .attr("x", function(d,i) { return xScale(d.n) + 265; })
+		 //here i am adding 2 class names - the year and the chart group's general name for reference
+	     .attr("class", className1+" typeCount")
+
+		}
+
 
 // draw the svgs 
 
 
-g.selectAll("._2021")
+g.selectAll(".Bars")
 	 .data(dataset)
      .enter().append("rect")
 	 //NEW class
@@ -113,8 +128,21 @@ g.selectAll("._2021")
      .attr("height", 8)
 	 .attr("fill", "#C0DCF1"); 
 
- svg.selectAll(".countText")
-     .data(results2019)
+ svg.selectAll(".Counts")
+     .data(dataset)
+     .enter()
+     .append("text")
+     .attr("class", 'typeCount')
+     .attr("x", function(d,i) { return xScale(d.n) + 265; })
+     .attr("y", function(d,i) { return yScale(i) - 200; })
+     .text(function(d) {
+	  return d.n}) // return the value n for each row 
+     .attr("font-family", "monospace")
+     .attr("font-size", "10px")
+     .attr("fill", "lightgray"); 
+
+/*svg.selectAll(".Counts")
+     .data(results2021)
      .enter()
      .append("text")
      .attr("class", "countText")
@@ -124,23 +152,10 @@ g.selectAll("._2021")
 	  return d.n}) // return the value n for each row 
      .attr("font-family", "monospace")
      .attr("font-size", "10px")
-     .attr("fill", "lightgray"); 
+     .attr("fill", "lightgray");*/
 
- svg.selectAll(".countText")
-     .data(results2021)
-     .enter()
-     .append("text")
-     .attr("class", "countText") // new class
-     .attr("x", function(d,i) { return xScale(d.n) + 265; })
-     .attr("y", function(d,i) { return yScale(i) - 200; })
-     .text(function(d) {
-	  return d.n}) // return the value n for each row 
-     .attr("font-family", "monospace")
-     .attr("font-size", "10px")
-     .attr("fill", "lightgray"); 
-
- svg.selectAll(".labels")
-     .data(results2021)
+ svg.selectAll("Labels")
+     .data(results2019)
      .enter()
      .append("text")
      .attr("class", "labels") // new class
