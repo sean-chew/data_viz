@@ -1,5 +1,4 @@
 
-
         function scatterPlot(data) {
             var w = 800;
             var h = 600;
@@ -12,15 +11,17 @@
                 .domain([0, 250])
                 .range([h - padding, 0]);
 
-            // var rScale = d3.scaleLinear()
-            //     .domain([
-            //         0,  //Because I want a zero baseline
-            //         d3.max(data, function (d) { return parseInt(d["dropout_rate"]); })
-            //     ])
-            //     .range([2, 10]);
+            var rScale = d3.scaleLinear()
+                .domain([
+                    0,  //Because I want a zero baseline
+                    d3.max(data, function (d) { return parseInt(d["count_all"]); })
+                ])
+                .range([2, 20]);
 
-            // const uniqueValues = Array.from(new Set(data.map(i => i.boro_mix)))
-            // const colorScale = d3.scaleOrdinal(d3.schemeCategory10).domain(uniqueValues)
+            const uniqueValues = Array.from(new Set(data.map(i => i.boro___x)))
+            console.log(uniqueValues)
+            const colorScale = d3.scaleOrdinal(d3.schemeCategory10).domain(uniqueValues)
+
 
             // console.log(colorScale('11'))
 
@@ -41,38 +42,49 @@
                 .scale(yScale)
                 .ticks(10);
 
-            function createCircles(svg, data, boroNum = '1') {
-                const circles = svg.selectAll("circle")
-                    .data(data.filter(d => d.boro___x.includes(boroNum)))
+            const circles = svg.selectAll("circle")
+                .data(data.filter(d => d.boro___x))
 
-                const circlesEnter = circles.enter().append("circle")
-                circles.exit().remove()
-
-                circlesEnter.merge(circles).attr("cx", function (d) {
+            circles
+                .enter().append("circle")
+                .attr('class', d => d.boro___x)
+                .attr("cx", function (d) {
                     return xScale(d.vacant_ratio);
                 })
-                    .attr("cy", function (d) {
-                        return yScale(d.unit_value_mean_y)
-                    })
-                    .attr("r", d => d.count_all * .01)
-                    // .style("fill", d => colorScale(d.boro_mix))
-                    .attr("opacity", .6);
-
-                return circles
-
-            }
-
-            createCircles(svg, data, '1')
+                .attr("cy", function (d) {
+                    return yScale(d.unit_value_mean_y)
+                })
+                .attr("r", d => rScale(d.count_all))
+                .style("fill", d => colorScale(d.boro___x))
+                .attr("opacity", .6);
 
 
-            const buttons = document.querySelectorAll('.boro-button')
+
+            const boroCircles = document.querySelectorAll('circle')
+            const buttons = document.querySelectorAll('.boro-btn')
             Array.from(buttons).forEach(button => {
-                const boroNum = button.dataset.boronum
-                button.addEventListener('click', () => {
+                button.addEventListener('click', (event) => {
+                    if (button.id !== 'overall') {
+                        let boroNum = event.target.attributes['data-index'].value
+                        Array.from(boroCircles).forEach(circle => {
+                            if (+circle.classList === +boroNum) {
+                                circle.attributes['opacity'].value = 0.6
+                                circle.attributes['style'].value = `fill: ${colorScale(boroNum)}`
+                            } else {
+                                circle.attributes['opacity'].value = 0.05
+                                circle.attributes['style'].value = 'grey'
+                            }
+                        })
+                    } else {
+                        Array.from(boroCircles).forEach(circle => {
+                            circle.attributes['opacity'].value = 0.6
+                            circle.attributes['style'].value = `fill: ${colorScale(circle.classList.value)}`
+                        })
+                    }
 
-                    createCircles(svg, data, boroNum)
-                    document.querySelector('#title').innerText = button.innerText
 
+
+                    document.querySelector('#scatterTitle').innerText = button.innerText
                 })
             })
 

@@ -1,0 +1,84 @@
+body {
+    margin: 0;
+    padding: 0;
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.title-container {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100vw;
+    height: 780px;
+    background-image: url(./cover.jpg);
+    color: white;
+}
+
+.mask {
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    background-color: black;
+    opacity: 20%;
+}
+
+#title {
+    font-weight: 600;
+    font-size: 90px;
+}
+
+#byline {
+    font-style: italic;
+    font-weight: 300;
+}
+
+img {
+    border: 1px solid red;
+    width: 100%;
+    height: 100%;
+}
+
+.chart-container {
+    border: 1px solid red;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 40px 0;
+    width: 100%;
+}
+
+.chart-container p {
+    width: 800px;
+    text-align: center;
+}
+
+.chart-title {
+    margin-bottom: 10px;
+}
+
+#year-button {
+    display: flex;
+    gap: 20px;
+}
+
+
+button {
+    margin: 15px 0;
+    border: none;
+    background-color: white;
+    cursor: pointer;
+}
+
+#map {
+    width: 800px;
+    height: 600px
+}

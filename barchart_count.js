@@ -11,14 +11,14 @@ function barChart_count(dataset){
 
 //button and pulling data
 
-
+// const yearBtn = document.querySelector('.year-button')
 const button1 = document.createElement('button')
 button1.innerText = '2019 to 2020'
 
 button1.addEventListener('click',() =>{
 	alert('result2019') // empty for now, will add chart later . . . alert2019
 })
-document.getElementById("chart1title").append(button1)
+document.getElementById('year-button').append(button1)
 
 const button2 = document.createElement('button')
 button2.innerText = '2020 to 2021'
@@ -26,13 +26,23 @@ button2.innerText = '2020 to 2021'
 button2.addEventListener('click',() =>{
 	alert('result2020') // empty for now, will add chart later . . . alert2020
 })
-document.getElementById("chart1title").append(button2)
+document.getElementById('year-button').append(button2)
+
+
+const button3 = document.createElement('button')
+button3.innerText = 'Annual Change'
+
+button3.addEventListener('click',() =>{
+	alert('aaa') // empty for now, will add chart later . . . alert2020
+})
+document.getElementById('year-button').append(button3)
+
 
 
 //drawing the things
 
 
-	var svg = d3.select("#chart1").append("svg").attr("width",width+250).attr("height", height-275)
+	var svg = d3.select("#barChart").append("svg").attr("width",width+250).attr("height", height-275)
 	
 	//xScale moves x-axis up and down & sets scale. yScale shrinks labels and bars together
 	var xScale = d3.scaleLinear().range ([0, width=250])
