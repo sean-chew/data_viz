@@ -84,7 +84,7 @@
 
 
 
-                    document.querySelector('#scatterTitle').innerText = button.innerText
+                    // document.querySelector('#scatterTitle').innerText = button.innerText
                 })
             })
 
