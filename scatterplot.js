@@ -60,9 +60,9 @@ function scatterPlot(data) {
     .style("fill", (d) => colorScale(d.boro___x))
     .attr("opacity", 0.6)
     .on("mouseover", (e, d) => {
-      content = `NTA: ${d.NTA__}<br>Storefront Counts:${d.count_all}<br>Vacant Storefront Ratio: ${+d3.format(".2f")(d.vacant_ratio)}<br>Median Land Unit Value: ${+d3.format(".2f")(d.unit_value_mean_y)}`;
+      content = `NTA: ${d.NTA__}<br>Storefront Counts: ${d.count_all}<br>Vacant Storefront Ratio: ${+d3.format(".2f")(d.vacant_ratio)}<br>Median Land Unit Value: ${+d3.format(".2f")(d.unit_value_mean_y)}`;
       tooltip.html(content).style("visibility", "visible");
-      d3.select(e.target).attr('r', (d) => rScale(d.count_all)*1.3)
+      d3.select(e.target).transition().duration('100').attr('r', (d) => rScale(d.count_all)+5).style("stroke","grey").style("stroke-width", 2)
     })
     .on("mousemove", (e, d) => {
       tooltip
@@ -71,7 +71,7 @@ function scatterPlot(data) {
     })
     .on("mouseout", (e, d) => {
       tooltip.style("visibility", "hidden");
-      d3.select(e.target).attr('r', (d) => rScale(d.count_all))
+      d3.select(e.target).transition().duration('180').attr('r', (d) => rScale(d.count_all)).style("stroke","transparent").style("stroke-width", 1)
     });
 
   const boroCircles = document.querySelectorAll("circle");

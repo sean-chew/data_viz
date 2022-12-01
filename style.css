@@ -69,6 +69,10 @@ img {
     display: flex;
     gap: 20px;
 }
+#year-button:focus{
+    background:#F5B84E;
+}
+
 
 
 button {
@@ -76,6 +80,9 @@ button {
     border: none;
     background-color: white;
     cursor: pointer;
+}
+button:focus{
+    background:#F5B84E;
 }
 
 #map {
@@ -90,4 +97,6 @@ button {
     background-color: rgba(67, 67, 67, 0.975);
     color: white;
     visibility: hidden;
+    border-radius: 10px;
+    font-size: 0.8rem;
 }
