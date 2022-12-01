@@ -61,11 +61,11 @@ drawTypeBarChart(results2019,"_2019")
 //Put functions into buttons
 	
 d3.select("#button2019").on("click",function(){
-		svg.selectAll("rect")
-		.transition()
-		.delay(75)					
-		.duration(350)
-		.attr("width", "400")
+		//svg.selectAll("rect")
+		//.transition()
+		//.delay(75)					
+		//.duration(350)
+		//.attr("width", "400")
 		//return xScale(d.n); }) 
 		d3.selectAll(".typeCharts").remove()
 		d3.selectAll(".typeCount").remove()
@@ -74,11 +74,11 @@ d3.select("#button2019").on("click",function(){
 	})
 	
 d3.select("#button2020").on("click",function(){
-		svg.selectAll("rect")
-		.transition()
-		.delay(75)					
-		.duration(350)
-		.attr("width", "400")
+		//svg.selectAll("rect")
+		//.transition()
+		//.delay(75)					
+		//.duration(350)
+		//.attr("width", "400")
 		//return xScale(i);
 		d3.selectAll(".typeCharts").remove()
 		d3.selectAll(".typeCount").remove()
