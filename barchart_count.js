@@ -2,7 +2,7 @@ function barChart_count(dataset){
 	console.log("Drawing a bar chart")
 	var margin = 0
 	var width = 700
-	var height = 800
+	var height = 500
 
 
 //drawing the things
@@ -10,9 +10,8 @@ function barChart_count(dataset){
 
 var svg = d3.select("#chart1").append("svg").attr("width",width+250).attr("height", height-275)
 	
-	//xScale moves x-axis up and down & sets scale. yScale shrinks labels and bars together
 	var xScale = d3.scaleLinear().range ([0, width=250])
-	var yScale = d3.scaleLinear().range ([height/2,0]);
+	var yScale = d3.scaleLinear().range ([height/1.4,1]);
 	
 
 	//get the max value of x from the dataset
@@ -21,7 +20,7 @@ var svg = d3.select("#chart1").append("svg").attr("width",width+250).attr("heigh
 	//get the max value of x from the dataset
 	//console.log(xMax)
 	xScale.domain([0,xMax]);
-	yScale.domain([0,dataset.length])
+	yScale.domain([0,dataset.length/2+3])
 	
 
 // Filter between years
@@ -57,18 +56,18 @@ drawTypeBarChart(results2019,"_2019")
 	d3.select("#button2019").on("click",function(){
 		//Remove the other chart and add 2019 
 		d3.selectAll(".typeCharts").remove()
-		drawTypeBarChart(results2019,"_2019")
 		d3.selectAll(".typeCount").remove()
-		//drawTypeCount(results2019,".countText")
+		drawTypeBarChart(results2019,"_2019")
+		drawTypeCount(results2019,".countText")
 
 
 	})
 	d3.select("#button2020").on("click",function(){
 		//Remove the other chart and add 2021
 		d3.selectAll(".typeCharts").remove()
-		drawTypeBarChart(results2021,"_2021")
 		d3.selectAll(".typeCount").remove()
-		//drawTypeCount(results2021,".countText")
+		drawTypeBarChart(results2021,"_2021")
+		drawTypeCount(results2021,".countText")
 
 
 		
