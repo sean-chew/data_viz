@@ -62,9 +62,10 @@ map.on('load', () => {
 		//Remove the other chart and add 2021
 		map.setLayoutProperty('vacant_2021','visibility','none')
 		map.setLayoutProperty('vacant_2020','visibility','none')
+		map.setLayoutProperty('nta_change_polygon_choro','visibility','visible')
 		map.setLayoutProperty('vacant_2021-point','visibility','visible')
 		map.setLayoutProperty('vacant_2020-point','visibility','visible')
-		map.setLayoutProperty('nta_change_polygon_choro','visibility','visible')
+
 
 
 	})
@@ -89,6 +90,27 @@ map.on('load', () => {
   });
 
   function drawmap(source,color) {
+	map.addLayer({
+		id:'nta_change_polygon_choro',
+		source:'nta_changes',
+		type:'fill',
+		paint:{
+			'fill-color': {
+				property: 'change', // this will be your density property form you geojson
+				stops: [
+				  [0, '#2B325E'],
+				  [30, '#7EA5D5'],
+				  [40, '#B9D3E9'],
+				  [80, '#E6EFF5'],
+				  [100, '#E7EFF5']
+				]
+			},// -781, to 500
+			'fill-opacity':.5
+
+		}
+		
+
+	})
 	map.addLayer(
 		{
 		  id: source,
@@ -209,34 +231,14 @@ map.on('load', () => {
 
 	});
 
-	map.addLayer({
-		id:'nta_change_polygon_choro',
-		source:'nta_changes',
-		type:'fill',
-		paint:{
-			'fill-color': {
-				property: 'change', // this will be your density property form you geojson
-				stops: [
-				  [0, '#2B325E'],
-				  [30, '#7EA5D5'],
-				  [40, '#B9D3E9'],
-				  [80, '#E6EFF5'],
-				  [100, '#E7EFF5']
-				]
-			},// -781, to 500
-			'fill-opacity':.5
 
-		}
-		
-
-	})
 
 	  map.on('click', source + '-point', (event) => {
 		new mapboxgl.Popup()
 		  .setLngLat(event.features[0].geometry.coordinates)
-		  .setHTML(`<strong>Year:</strong> ${event.features[0].properties.reporting_year}`+ `\n`+ 
-		  `<strong>Address:</strong> ${event.features[0].properties.property_street_address_or_storefront_address}`+ `\n`+ 
-		  `<strong>Neighborhood:</strong> ${event.features[0].properties.nbhd}`)
+		  .setHTML(`<strong>Year:</strong> ${event.features[0].properties.reporting_year}<br>`+ `\n`+ 
+		  `<strong>Address:</strong> ${event.features[0].properties.property_street_address_or_storefront_address}<br>`+ `\n`+ 
+		  `<strong>Neighborhood:</strong> ${event.features[0].properties.nbhd}<br>`)
 		  .addTo(map);
 	  });
 
