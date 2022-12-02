@@ -39,6 +39,7 @@ body {
 #byline {
     font-style: italic;
     font-weight: 300;
+    color: white;
     font-family: monospace;
 }
 
