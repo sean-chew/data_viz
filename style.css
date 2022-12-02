@@ -83,6 +83,7 @@ button {
 }
 button:focus{
     background:#F5B84E;
+    opacity: 0.8;
 }
 
 #map {
