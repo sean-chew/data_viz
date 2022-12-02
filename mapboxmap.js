@@ -114,7 +114,12 @@ map.on('load', () => {
 				  [100, '#E7EFF5']
 				]
 			},// -781, to 500
-			'fill-opacity':.5
+			'fill-opacity':{
+				stops: [
+					[14,.5],
+					[15,0]
+			],
+			}
 
 		}
 		
