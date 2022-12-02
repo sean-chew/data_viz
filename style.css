@@ -57,12 +57,16 @@ img {
 }
 
 .chart-container p {
-    width: 800px;
+    width: 700px;
     text-align: center;
+    line-height: 27px;   /* within paragraph */
+    /* padding-bottom:15px */
+    /* margin-bottom: 30px; between paragraphs */
 }
 
+
 .chart-title {
-    margin-bottom: 10px;
+    margin-bottom: 5px;
 }
 
 #year-button {
