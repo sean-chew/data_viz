@@ -58,6 +58,14 @@ map.on('load', () => {
 		map.setLayoutProperty('vacant_2021','visibility','visible')
 		map.setLayoutProperty('nta_change_polygon_choro','visibility','none')
 	})
+	d3.select("#yrChange").on("click",function(){
+		//Remove the other chart and add 2021
+		map.setLayoutProperty('vacant_2021','visibility','none')
+		map.setLayoutProperty('vacant_2020','visibility','none')
+		map.setLayoutProperty('nta_change_polygon_choro','visibility','visible')
+		map.setLayoutProperty('vacant_2021-point','visibility','visible')
+		map.setLayoutProperty('vacant_2020-point','visibility','visible')
+	})
 	d3.select("#astoria").on("click",function(){
 		//Remove the other chart and add 2021
 		map.flyTo({center: [-73.918988,40.758969], zoom: 15});
@@ -106,7 +114,12 @@ map.on('load', () => {
 				  [100, '#E7EFF5']
 				]
 			},// -781, to 500
-			'fill-opacity':.5
+			'fill-opacity':{
+				stops: [
+					[14,.5],
+					[15,0]
+			],
+			}
 
 		}
 		
