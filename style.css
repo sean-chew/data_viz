@@ -33,17 +33,23 @@ body {
 #title {
     font-weight: 600;
     font-size: 90px;
+    font-family:  monospace;
 }
 
 #byline {
     font-style: italic;
     font-weight: 300;
+    color: white;
+    font-family: monospace;
 }
 
-img {
+#img {
     border: 1px solid transparent;
     width: 100%;
-    height: 100%;
+    background-image: url(./Astoria_Vacancy2.png);
+    width: 800px;
+    height: 600px;
+    object-fit: contain;
 }
 
 .chart-container {
@@ -62,16 +68,20 @@ img {
     line-height: 27px;   /* within paragraph */
     /* padding-bottom:15px */
     /* margin-bottom: 30px; between paragraphs */
+    font-family: monospace;
 }
 
 
 .chart-title {
     margin-bottom: 5px;
+    font-family: monospace;
+
 }
 
 #year-button {
     display: flex;
     gap: 20px;
+    font-family: monospace;
 }
 #year-button:focus{
     background:#F5B84E;
@@ -84,6 +94,7 @@ button {
     border: none;
     background-color: white;
     cursor: pointer;
+    font-family: monospace;
 }
 button:focus{
     background:#F5B84E;
@@ -104,4 +115,5 @@ button:focus{
     visibility: hidden;
     border-radius: 10px;
     font-size: 0.8rem;
+    font-family: monospace;
 }

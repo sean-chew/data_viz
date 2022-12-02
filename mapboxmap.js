@@ -51,12 +51,15 @@ map.on('load', () => {
 	})
 	d3.select("#yr2021").on("click",function(){
 		//Remove the other chart and add 2021
+		/*
 		map.setLayoutProperty('vacant_2021','visibility','none')
 		map.setLayoutProperty('vacant_2020','visibility','none')
 		map.setLayoutProperty('vacant_2021-point','visibility','visible')
 		map.setLayoutProperty('vacant_2020-point','visibility','none')
 		map.setLayoutProperty('vacant_2021','visibility','visible')
 		map.setLayoutProperty('nta_change_polygon_choro','visibility','none')
+		*/
+		map.flyTo({center: [-73.918988,40.758969], zoom: 15});
 	})
 	d3.select("#yrChange").on("click",function(){
 		//Remove the other chart and add 2021
