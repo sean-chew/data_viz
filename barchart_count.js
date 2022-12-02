@@ -158,7 +158,7 @@ g.selectAll(".Bars")
 	 //.attr("fill", "#C0DCF1")
 	 .style("fill", function(d){
 		if(d.n == 9773) {return "#FF5900"}
-		else if (d.n == 9559) {return "FF5900"}
+		else if (d.n == 9559) {return "#FF5900"}
 		else {return "#C0DCF1"}
 		;})
 
