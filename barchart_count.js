@@ -2,16 +2,16 @@ function barChart_count(dataset){
 	console.log("Drawing a bar chart")
 	var margin = 0
 	var width = 700
-	var height = 400
+	var height = 350
 
 
 //drawing the things
 
 
-var svg = d3.select("#chart1").append("svg").attr("width",width+250).attr("height", height-150)
+var svg = d3.select("#chart1").append("svg").attr("width",width+250).attr("height", height-100)
 	
 	var xScale = d3.scaleLinear().range ([0, width=250])
-	var yScale = d3.scaleLinear().range ([height/1,0]);
+	var yScale = d3.scaleLinear().range ([height/.8,0]);
 	
 
 	//get the max value of x from the dataset
@@ -156,6 +156,7 @@ g.selectAll(".Bars")
      .attr("y", function(d,i) { return yScale(i) - 200; }) 
      .attr("height", 8)
 	 .attr("fill", "#C0DCF1"); 
+	 //if 
 
  svg.selectAll(".Counts")
      .data(dataset)
