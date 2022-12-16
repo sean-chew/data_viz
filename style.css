@@ -136,6 +136,7 @@ button:focus{
     display: none;
 }
 
+
 /* Next & previous buttons */
 .prev, .next {
   cursor: pointer;
