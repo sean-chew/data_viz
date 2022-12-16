@@ -36,6 +36,8 @@ body {
     font-family:  monospace;
 }
 
+H2 { text-align: center }
+
 #byline {
     font-style: italic;
     font-weight: 300;
@@ -103,7 +105,8 @@ button:focus{
 }
 
 #map {
-    width: 1600px;
+    
+    width: 80%; 
     height: 720px
 }
 
